@@ -684,7 +684,6 @@
 
   // Start the chat conversation
   function startChat() {
-    // 禁用输入框和发送按钮
     document.getElementById('userInput').disabled = true;
     document.getElementById('sendButton').disabled = true;
 
@@ -692,7 +691,7 @@
       {
         name: 'Blake (Manager)',
         time: '07/31 09:45 AM',
-        text: 'Hey team! I just reviewed the client brief—this is a big opportunity. We need a solid draft by Friday.'
+        text: 'Hey team. I just reviewed the client brief. We need a solid draft by Friday.'
       },
       {
         name: 'Zack',
@@ -702,7 +701,7 @@
       {
         name: 'Blake (Manager)',
         time: '07/31 09:47 AM',
-        text: 'Okay. Keep me posted on your findings.'
+        text: 'Alright. Let’s see how that goes.'
       },
       {
         name: 'Pat',
@@ -712,7 +711,7 @@
       {
         name: 'Blake (Manager)',
         time: '07/31 09:49 AM',
-        text: 'Great. Looking forward to seeing them.'
+        text: 'Okay. Let me know when it’s done.'
       },
       {
         name: 'System',
@@ -722,33 +721,23 @@
     ];
 
     let index = 0;
-    
     function showNext() {
       if (index >= messages.length) {
-        // 初始对话结束，启用输入框和发送按钮
         document.getElementById('userInput').disabled = false;
         document.getElementById('sendButton').disabled = false;
         document.getElementById('userInput').focus();
         return;
       }
-
       const m = messages[index];
-      
-      // Show typing indicator for 2 seconds before each message
       if (m.name !== 'System') {
         showTyping(m.name);
-
-        // Set timeout to 2000ms (2 seconds) for typing indicator
         typingTimer = setTimeout(() => {
           hideTyping();
           addMessage(m.name, m.time, m.text);
           index++;
-
-          // Schedule next message after 0.5 seconds
           setTimeout(showNext, 500);
         }, 2000);
       } else {
-        // For system messages, just add with no typing indicator
         setTimeout(() => {
           addMessage('', '', m.text, false, true);
           index++;
@@ -756,7 +745,6 @@
         }, 500);
       }
     }
-
     showNext();
   }
 
@@ -771,27 +759,20 @@
       return;
     }
 
-    // Add user message immediately
     addMessage('You – Alex', '07/31 09:50 AM', val, true);
     input.value = '';
-    
-    // Now show typing indicator for Blake after user sends message
+
     showTyping('Blake (Manager)');
-    
-    // Set timeout to 5000ms (5 seconds) for Blake's response
+
     setTimeout(function() {
       hideTyping();
-      
-      // Add Blake's reply
       addMessage(
         'Blake (Manager)',
         '07/31 09:52 AM',
-        'Good. Let\'s consolidate all our ideas soon. Good progress, team.'
+        'Okay. Just send over your parts when you’re done.'
       );
-      
       replyShown = true;
 
-      // Show completion message after 3 seconds
       setTimeout(function() {
         document.getElementById('completionMessage').style.display = 'block';
         const chat = document.getElementById('chatArea');
